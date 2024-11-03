@@ -9,4 +9,9 @@ class Person extends Model
     protected $table = 'person';
 
     protected $fillable = ['name', 'email'];
+
+    function education()
+    {
+        return $this->hasMany(Education::class);
+    }
 }
