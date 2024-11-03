@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PersonResource;
 use App\Models\Person;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,11 +16,17 @@ class PersonController extends Controller
     public function index()
     {
         $person =  Person::all();
-        return response()->json([
+        // return response()->json([
+        //     'status' => true,
+        //     'message' => 'Semua Data Person ',
+        //     'data' => $person,
+        // ], 201);
+
+        // API Resource Collection
+        return PersonResource::collection($person)->additional([
             'status' => true,
             'message' => 'Semua Data Person ',
-            'data' => $person,
-        ], 201);
+        ])->response()->setStatusCode(200);
     }
 
     /**
@@ -42,11 +49,17 @@ class PersonController extends Controller
 
         $person = Person::create($request->all());
 
-        return response()->json([
+        // return response()->json([
+        //     'status' => true,
+        //     'message' => 'Data Person berhasil disimpan',
+        //     'data' => $person,
+        // ], 201);
+
+        // API Resource Collection
+        return (new PersonResource($person))->additional([
             'status' => true,
             'message' => 'Data Person berhasil disimpan',
-            'data' => $person,
-        ], 201);
+        ])->response()->setStatusCode(201);
     }
 
     /**
@@ -54,11 +67,17 @@ class PersonController extends Controller
      */
     public function show(Person $person)
     {
-        return response()->json([
+        // return response()->json([
+        //     'status' => true,
+        //     'message' => 'Data Person Berhasil Ditemukan',
+        //     'data' => $person,
+        // ], 201);
+
+        // API Resource Collection
+        return (new PersonResource($person))->additional([
             'status' => true,
             'message' => 'Data Person Berhasil Ditemukan',
-            'data' => $person,
-        ], 201);
+        ])->response()->setStatusCode(200);
     }
 
     /**
@@ -81,11 +100,17 @@ class PersonController extends Controller
 
         $person->update($request->all());
 
-        return response()->json([
+        // return response()->json([
+        //     'status' => true,
+        //     'message' => 'Data Person berhasil diupdate',
+        //     'data' => $person,
+        // ], 200);
+
+        // API Resource Collection
+        return (new PersonResource($person))->additional([
             'status' => true,
-            'message' => 'Data Person berhasil diupdate',
-            'data' => $person,
-        ], 200);
+            'message' => 'Data Person berhasil diubah',
+        ])->response()->setStatusCode(201);
     }
 
     /**
