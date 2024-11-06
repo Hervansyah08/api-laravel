@@ -1,11 +1,15 @@
 <?php
 
-use App\Http\Controllers\Api\PersonController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PersonController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::resource('person', PersonController::class);
+Route::resource('person', PersonController::class)->middleware('auth:sanctum');
+
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
